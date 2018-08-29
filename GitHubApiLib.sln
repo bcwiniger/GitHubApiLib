@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApiLib", "GitHubApiLib\GitHubApiLib.csproj", "{2C03772D-3BB9-45BB-A1D3-8E836FA73EFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApiLib.TestHarness", "GitHubApiLib.TestHarness\GitHubApiLib.TestHarness.csproj", "{11467E9C-C40A-4B9B-BCEB-3A3E843E4380}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApiLib.Tests", "GitHubApiLib.Tests\GitHubApiLib.Tests.csproj", "{FA95396C-4EF6-4AD3-BAD1-30EF862ABB0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{2C03772D-3BB9-45BB-A1D3-8E836FA73EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C03772D-3BB9-45BB-A1D3-8E836FA73EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C03772D-3BB9-45BB-A1D3-8E836FA73EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11467E9C-C40A-4B9B-BCEB-3A3E843E4380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11467E9C-C40A-4B9B-BCEB-3A3E843E4380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11467E9C-C40A-4B9B-BCEB-3A3E843E4380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11467E9C-C40A-4B9B-BCEB-3A3E843E4380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA95396C-4EF6-4AD3-BAD1-30EF862ABB0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA95396C-4EF6-4AD3-BAD1-30EF862ABB0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA95396C-4EF6-4AD3-BAD1-30EF862ABB0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA95396C-4EF6-4AD3-BAD1-30EF862ABB0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
