@@ -1,24 +1,14 @@
 ﻿using GitHubApiLib.Helpers;
 using GitHubApiLib.Models;
 using GitHubApiLib.Parameters;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace GitHubApiLib.Clients
 {
-    public class PullRequestClient
+    public class PullRequestClient : BaseClient
     {
-        private GitHubClient _client;
-        public PullRequestClient(GitHubClient client)
-        {
-            EnsureThat.ValueIsNotNull(client);
-            _client = client;
-        }
+        public PullRequestClient(string userAgent) : base(userAgent) { }
 
         /// <summary>
         /// Get pull requests belonging to a particular repository for a particular organization.
@@ -42,7 +32,7 @@ namespace GitHubApiLib.Clients
         /// <param name="repoName"></param>
         /// <param name="queryBuilder"></param>
         /// <returns></returns>
-        public async Task<List<PullRequestResponse>> GetPullRequestsAsync(string owner, string repoName, PullRequestQueryStringBuilder queryBuilder)
+        public async Task<List<PullRequestResponse>> GetPullRequestsAsync(string owner, string repoName, PullRequestOptions queryBuilder)
         {
             EnsureThat.ValueIsNotNull(queryBuilder);
             EnsureThat.ValueIsNotEmpty(owner);
@@ -60,32 +50,7 @@ namespace GitHubApiLib.Clients
 
             var endpoint = $"repos/{owner}/{repoName}/pulls{queryString}";
 
-            LinkHeader pageLinks = new LinkHeader();
-            do
-            {
-                var rsp = await _client.HttpClient.GetAsync(endpoint);
-
-                rsp.EnsureSuccessStatusCode();
-
-                if(rsp.Headers.TryGetValues("link", out var linkHeader))
-                {
-                    EnsureThat.CollectionIsNotEmpty(linkHeader);
-                    pageLinks = new LinkHeader().Parse(linkHeader.ToList()[0]);
-                }
-                
-                using (var strm = await rsp.Content.ReadAsStreamAsync())
-                using (var strmRdr = new StreamReader(strm))
-                using (var jsonReader = new JsonTextReader(strmRdr))
-                {
-                    var serializer = new JsonSerializer();
-                    pullRequests.AddRange(serializer.Deserialize<List<PullRequestResponse>>(jsonReader));
-                }
-
-                endpoint = pageLinks.NextPage;
-            }
-            while (!string.IsNullOrEmpty(pageLinks.NextPage));
-
-            return pullRequests;
+            return await GetAllPageResultsAsync<PullRequestResponse>(endpoint);
         }
     }
 

@@ -1,6 +1,6 @@
-﻿using GitHubApiLib.Clients;
-using GitHubApiLib.Exceptions;
+﻿using GitHubApiLib.Exceptions;
 using GitHubApiLib.Helpers;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GitHubApiLib.Tests.Helpers
@@ -34,7 +34,7 @@ namespace GitHubApiLib.Tests.Helpers
         [Fact]
         public void value_is_not_null_throws_exception_when_value_is_null()
         {
-            GitHubClient sut = null;
+            object sut = null;
 
             Assert.Throws<InvalidArgumentException>(() => EnsureThat.ValueIsNotNull(sut));
         }
@@ -42,7 +42,7 @@ namespace GitHubApiLib.Tests.Helpers
         [Fact]
         public void value_is_not_null_does_not_throw_exception_when_value_is_not_null()
         {
-            var sut = new GitHubClient("testing");
+            var sut = new object();
 
             EnsureThat.ValueIsNotNull(sut);
         }
@@ -75,27 +75,19 @@ namespace GitHubApiLib.Tests.Helpers
         }
 
         [Fact]
-        public void collection_is_not_empty_throws_exception_when_collection_is_empty()
+        public void collection_count_equals_throws_exception_when_count_is_not_equal()
         {
-            var sut = new string[0];
+            var sut = new List<string> { "a" };
 
-            Assert.Throws<InvalidArgumentException>(() => EnsureThat.CollectionIsNotEmpty(sut));
+            Assert.Throws<InvalidArgumentException>(() => EnsureThat.CollectionCountEquals(sut, 5));
         }
 
         [Fact]
-        public void collection_is_not_empty_throws_exception_when_collection_is_null()
+        public void collection_count_equals_does_not_throw_exception_when_count_is_equal()
         {
-            string[] sut = null;
+            var sut = new List<string> { "a" };
 
-            Assert.Throws<InvalidArgumentException>(() => EnsureThat.CollectionIsNotEmpty(sut));
-        }
-
-        [Fact]
-        public void collection_is_not_empty_does_not_throw_exception_when_collection_is_not_empty()
-        {
-            var sut = new string[] { "s" };
-
-            EnsureThat.CollectionIsNotEmpty(sut);
+            EnsureThat.CollectionCountEquals(sut, 1);
         }
     }
 }

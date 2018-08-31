@@ -1,17 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace GitHubApiLib.Parameters
+﻿namespace GitHubApiLib.Parameters
 {
     public class PaginationOptions
     {
-        [Range(1, 100)]
-        public int ResultsPerPage { private get; set; }
+        private int? _resultsPerPage = null;
+        public int? ResultsPerPage
+        {
+            private get { return _resultsPerPage; }
+
+            set
+            {
+                if (value < 1) _resultsPerPage = 1;
+                else if (value > 100) _resultsPerPage = 100;
+                else _resultsPerPage = value;
+            }
+        }
 
         public string QueryString => BuildQueryString();
 
         private string BuildQueryString()
         {
-            return $"per_page={ResultsPerPage}";
+            return ResultsPerPage.HasValue
+                ? $"?per_page={ResultsPerPage.Value}"
+                : "";
         }
     }
 }

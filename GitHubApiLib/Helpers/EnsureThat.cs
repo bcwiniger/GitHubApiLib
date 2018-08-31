@@ -39,23 +39,14 @@ namespace GitHubApiLib.Helpers
         }
 
         /// <summary>
-        /// Ensures that <paramref name="arr"/> is not empty or null
+        /// Ensures that <paramref name="arr"/> count equals <paramref name="val"/>
         /// </summary>
         /// <param name="arr"></param>
+        /// <param name="val"></param>
         /// <exception cref="InvalidArgumentException" />
-        public static void CollectionIsNotEmpty<T>(IEnumerable<T> arr)
+        public static void CollectionCountEquals(IEnumerable<object> arr, int val)
         {
-            if (arr == null || arr.Count() == 0) throw new InvalidArgumentException($"Collection must not be empty.");
-        }
-
-        /// <summary>
-        /// Ensures that <paramref name="arr"/> is not empty or null
-        /// </summary>
-        /// <param name="arr"></param>
-        /// <exception cref="InvalidArgumentException" />
-        public static void CollectionIsNotEmpty<T>(T[] arr)
-        {
-            if (arr == null || arr.Length == 0) throw new InvalidArgumentException($"Collection must not be empty.");
+            if (arr == null || arr.Count() != val) throw new InvalidArgumentException($"Collection count equals [{arr.Count()}] instead of [{val}]");
         }
     }
 }

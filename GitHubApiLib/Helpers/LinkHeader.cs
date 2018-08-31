@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Net.Http.Headers;
 
 namespace GitHubApiLib.Helpers
 {
@@ -12,22 +14,24 @@ namespace GitHubApiLib.Helpers
 
         public string LastPage { get; set; }
         
-        public LinkHeader Parse(string unparsedLinkHeader)
+        public LinkHeader Parse(HttpResponseHeaders headers)
         {
+            var linkHeader = new LinkHeader();
+
             try
             {
+                if (!headers.TryGetValues("link", out var tempLinks)) return linkHeader;
+                EnsureThat.CollectionCountEquals(tempLinks, 1);
+
+                var unparsedLinkHeader = tempLinks.ToList()[0];
                 EnsureThat.ValueIsNotEmpty(unparsedLinkHeader);
                 var links = unparsedLinkHeader.Split(',');
-                EnsureThat.CollectionIsNotEmpty(links);
-
-                var linkHeader = new LinkHeader();
                 
                 foreach(var link in links)
                 {
                     var linkComponents = link.Split(';');
-                    EnsureThat.CollectionIsNotEmpty(linkComponents);
+                    EnsureThat.CollectionCountEquals(linkComponents, 2);
 
-                    //TODO: ensure that collection equals 2
                     var url = linkComponents[0].Replace("<", "").Replace(">", "");
                     var rel = linkComponents[1].Replace("rel=", "").Replace("\"", "");
                     switch(rel.ToLower().Trim())
@@ -52,8 +56,9 @@ namespace GitHubApiLib.Helpers
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message, ex);
-                return null;
             }
+
+            return linkHeader;
         }
     }
 }

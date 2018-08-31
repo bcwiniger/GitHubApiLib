@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GitHubApiLib.Parameters
 {
-    public class PullRequestQueryStringBuilder
+    public class PullRequestOptions
     {
         public PullRequestState State { private get; set; } = PullRequestState.NotSpecified;
 
@@ -26,7 +26,7 @@ namespace GitHubApiLib.Parameters
                 GetSortDirectionQueryString()
             };
 
-            if (PageOptions != null) queryStrings.Add(PageOptions.QueryString);
+            if (PageOptions != null) queryStrings.Add(PageOptions.QueryString.Replace("?", ""));
 
             var queryString = string.Join('&', queryStrings.Where(x => !string.IsNullOrEmpty(x)));
             return $"?{queryString}";

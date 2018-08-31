@@ -8,141 +8,128 @@ namespace GitHubApiLib.Tests.Parameters
         [Fact]
         public void build_query_string_with_no_values_supplied_returns_empty_string()
         {
-            var sut = new PullRequestQueryStringBuilder();
+            var sut = new PullRequestOptions();
 
-            var result = sut.Build();
-
-            Assert.Equal("", result);
+            Assert.Equal("", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_state_specified_as_all_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { State = PullRequestState.All };
+            var sut = new PullRequestOptions { State = PullRequestState.All };
 
-            var result = sut.Build();
-
-            Assert.Equal("?state=all", result);
+            Assert.Equal("?state=all", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_state_specified_as_open_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { State = PullRequestState.Open };
+            var sut = new PullRequestOptions { State = PullRequestState.Open };
 
-            var result = sut.Build();
-
-            Assert.Equal("?state=open", result);
+            Assert.Equal("?state=open", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_state_specified_as_closed_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { State = PullRequestState.Closed };
+            var sut = new PullRequestOptions { State = PullRequestState.Closed };
 
-            var result = sut.Build();
-
-            Assert.Equal("?state=closed", result);
+            Assert.Equal("?state=closed", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_state_set_as_not_specified_return_empty_string()
         {
-            var sut = new PullRequestQueryStringBuilder { State = PullRequestState.NotSpecified };
+            var sut = new PullRequestOptions { State = PullRequestState.NotSpecified };
 
-            var result = sut.Build();
-
-            Assert.Equal("", result);
+            Assert.Equal("", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_by_specified_as_created_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortBy = PullRequestSortBy.Created };
-
-            var result = sut.Build();
-
-            Assert.Equal("?sort=created", result);
+            var sut = new PullRequestOptions { SortBy = PullRequestSortBy.Created };
+            
+            Assert.Equal("?sort=created", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_by_specified_as_updated_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortBy = PullRequestSortBy.Updated };
-
-            var result = sut.Build();
-
-            Assert.Equal("?sort=updated", result);
+            var sut = new PullRequestOptions { SortBy = PullRequestSortBy.Updated };
+            
+            Assert.Equal("?sort=updated", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_by_specified_as_popularity_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortBy = PullRequestSortBy.Popularity };
-
-            var result = sut.Build();
-
-            Assert.Equal("?sort=popularity", result);
+            var sut = new PullRequestOptions { SortBy = PullRequestSortBy.Popularity };
+            
+            Assert.Equal("?sort=popularity", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_by_specified_as_long_running_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortBy = PullRequestSortBy.LongRunning };
-
-            var result = sut.Build();
-
-            Assert.Equal("?sort=long-running", result);
+            var sut = new PullRequestOptions { SortBy = PullRequestSortBy.LongRunning };
+            
+            Assert.Equal("?sort=long-running", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_by_set_as_not_specified_return_empty_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortBy = PullRequestSortBy.NotSpecified };
-
-            var result = sut.Build();
-
-            Assert.Equal("", result);
+            var sut = new PullRequestOptions { SortBy = PullRequestSortBy.NotSpecified };
+            
+            Assert.Equal("", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_direction_specified_as_asc_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortDirection = SortDirection.Asc };
-
-            var result = sut.Build();
-
-            Assert.Equal("?direction=asc", result);
+            var sut = new PullRequestOptions { SortDirection = SortDirection.Asc };
+            
+            Assert.Equal("?direction=asc", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_direction_specified_as_desc_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortDirection = SortDirection.Desc };
-
-            var result = sut.Build();
-
-            Assert.Equal("?direction=desc", result);
+            var sut = new PullRequestOptions { SortDirection = SortDirection.Desc };
+            
+            Assert.Equal("?direction=desc", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_sort_direction_specified_as_not_specified_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { SortDirection = SortDirection.NotSpecified };
+            var sut = new PullRequestOptions { SortDirection = SortDirection.NotSpecified };
+            
+            Assert.Equal("", sut.QueryString);
+        }
 
-            var result = sut.Build();
+        [Fact]
+        public void build_query_string_with_page_options_return_query_string()
+        {
+            var sut = new PullRequestOptions { PageOptions = new PaginationOptions { ResultsPerPage = 50 } };
 
-            Assert.Equal("", result);
+            Assert.Equal("?per_page=50", sut.QueryString);
         }
 
         [Fact]
         public void build_query_string_with_multiple_values_specified_build_correct_query_string()
         {
-            var sut = new PullRequestQueryStringBuilder { State = PullRequestState.Open, SortBy = PullRequestSortBy.Updated };
-
-            var result = sut.Build();
-
-            Assert.Equal("?state=open&?sort=updated", result);
+            var sut = new PullRequestOptions
+            {
+                State = PullRequestState.Open,
+                SortBy = PullRequestSortBy.Updated, 
+                PageOptions = new PaginationOptions { ResultsPerPage = 1 }
+            };
+            
+            Assert.Equal("?state=open&sort=updated&per_page=1", sut.QueryString);
         }
+
+
     }
 }
